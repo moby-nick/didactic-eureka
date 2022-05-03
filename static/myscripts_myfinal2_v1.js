@@ -20,7 +20,7 @@ var mywin1_W = mywin1.innerWidth;
 
 var csvColors;
 var txtFile = new XMLHttpRequest();
-txtFile.open("GET", "color_pallet.csv", true);
+txtFile.open("GET", "static/color_pallet.csv", true);
 txtFile.onreadystatechange = function()
 {
   if (txtFile.readyState === 4) {  // document is ready to parse.
