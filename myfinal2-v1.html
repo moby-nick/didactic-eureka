@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<meta charset="utf-8" />
+<head>
+  <style>
+    @font-face {
+      font-family: "PoppinsRegular";
+      src: url("Poppins-Regular.ttf") format("truetype");
+    }
+    @font-face {
+      font-family: "PoppinsThinItalic";
+      src: url("Poppins-ThinItalic.ttf") format("truetype");
+    }
+    body {
+      height: 100%;
+      width: 100%;
+      overflow: hidden;
+      margin: 0;
+    }
+    axisRed line {
+      stroke: red;
+    }
+  </style>
+</head>
+
+<!-- Load d3.js -->
+<script src="https://d3js.org/d3.v6.js"></script>
+<link rel="stylesheet" href="mystyle2_v1.css" />
+<body>
+  <!-- Create a div where the graph will take place -->
+  <div id="landscape_div">
+    <table>
+      <tr>
+        <th>
+          <div
+            id="cell1"
+            ;
+            style="
+              width: 25vw;
+              height: 20vh;
+              font-size: 40px;
+              font: PoppinsRegular;
+            "
+          >
+            S&P 500 Companies
+            <hr width="200vw;" color="steelblue" ;size="10px" />
+          </div>
+        </th>
+        <th rowspan="2">
+          <div id="my_dataviz" ; width="70vw;" , height="90vh;"></div>
+        </th>
+      </tr>
+      <tr valign="top">
+        <th>
+          <div class="select" style="width=25vw;height75vh;" id="cell2">
+            <select
+              size="10"
+              style="
+                height: 75vh;
+                width: 25vw;
+                direction: rtl;
+                text-align: left;
+              "
+              id="selectButton2"
+            ></select>
+            <span class="focus"></span>
+          </div>
+        </th>
+      </tr>
+    </table>
+  </div>
+  <div id="portrait_div">
+    <table>
+      <tr>
+        <div
+          id="my_dataviz"
+          ;
+          style="height: 50vh; width: 90vw; text-align: center"
+        ></div>
+      </tr>
+      <tr>
+        <div
+          id="cell1"
+          ;
+          style="
+            height: 7vh;
+            width: 90vw;
+            font-size: 45px;
+            font-family: PoppinsRegular;
+            text-align: left;
+          "
+        >
+          S&P 500 Companies
+          <hr width="450vw;" color="steelblue" ;size="10px" />
+        </div>
+      </tr>
+      <tr>
+        <div
+          class="select"
+          style="width=80vw;height:43vh;font-size:30px;valign:top;text-align:center;"
+          id="cell2"
+          ;
+        >
+          <select
+            size="10"
+            style="height:43vh;width:90vw;valign:top;direction:rtl;text-align:left;valign;font-size:40px"
+            id="selectButton2"
+          ></select>
+        </div>
+      </tr>
+    </table>
+  </div>
+
+  <!-- Color Scale -->
+  <script src="https://d3js.org/d3-scale-chromatic.v1.min.js"></script>
+  <script src="myscripts_myfinal2_v1.js"></script>
+</body>
