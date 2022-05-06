@@ -24,7 +24,7 @@
 
 <!-- Load d3.js -->
 <script src="https://d3js.org/d3.v6.js"></script>
-<link rel="stylesheet" href="./static/mystyle2_v1.css" />
+<link rel="stylesheet" href="/static/mystyle2_v1.css" />
 <body>
   <!-- Create a div where the graph will take place -->
   <div id="landscape_div">
@@ -36,13 +36,14 @@
             ;
             style="
               width: 25vw;
-              height: 20vh;
-              font-size: 40px;
+              height: 10vh;
+              font-size: 30px;
+              font-size: 2vw;
               font: PoppinsRegular;
             "
           >
             S&P 500 Companies
-            <hr width="200vw;" color="steelblue" ;size="10px" />
+            <hr width="200vw;" color="steelblue" ;size="5px" />
           </div>
         </th>
         <th rowspan="2">
@@ -53,11 +54,11 @@
         <th>
           <div class="select" style="width=25vw;height75vh;" id="cell2">
             <select
-              size="10"
+              size="7"
               style="
                 height: 75vh;
                 width: 25vw;
-                direction: rtl;
+                direction: ltr;
                 text-align: left;
               "
               id="selectButton2"
@@ -109,7 +110,6 @@
       </tr>
     </table>
   </div>
-
   <!-- Color Scale -->
   <script src="https://d3js.org/d3-scale-chromatic.v1.min.js"></script>
   <script src="/static/myscripts_myfinal2_v1.js"></script>
