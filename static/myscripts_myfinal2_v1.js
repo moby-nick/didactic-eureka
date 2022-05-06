@@ -110,7 +110,7 @@ var dumvar;
 fetch("/static/symbol_names.json")
   .then((response) => response.json())
   .then((data) => {
-    console.log(data);
+    //console.log(data);
     allTickers = data.items;
     allTickers = allTickers.sort();
     selectedTicker = allTickers[0];
@@ -119,10 +119,10 @@ fetch("/static/symbol_names.json")
     .then((response) => response.json())
     .then((data) => {
         // log the data
-        console.log(data);
+        //console.log(data);
         // filter the data
         dataFilter = data.filter(obj => obj.symbol_name == selectedTicker);
-        console.log(dataFilter);
+        //console.log(dataFilter);
     /*
     fetch(
       "https://moby-api-dot-moby-data-services.ue.r.appspot.com/analystratings/ratings?symbol_name=" +
@@ -398,10 +398,10 @@ fetch("/static/symbol_names.json")
         .then((response) => response.json())
         .then((data) => {
         // log the data
-        console.log(data);
+        // console.log(data);
         // filter the data
         dataFilter = data.filter(obj => obj.symbol_name == selectedTicker);
-        console.log(dataFilter);
+        // console.log(dataFilter);
         })
           svg.selectAll("circle").remove();
           for (i = 0; i < 4; i++) {
