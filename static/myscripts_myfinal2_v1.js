@@ -12,6 +12,7 @@ fetch('https://m3jxkh.deta.dev/analystratings/symbolnames', { method: "GET", mod
     ;
 */
 
+
 var parseTime = d3.timeParse("%Y-%m-%d");
 var mywin1 = window;
 var mywin1_H = mywin1.innerHeight;
@@ -86,7 +87,7 @@ function make_y0_gridlines() {
   return d3.axisLeft(y0).ticks(5);
 }
 
-var selectedTicker = "A";
+var selectedTicker = "Apple (AAPL)";
 var dataFilter;
 var legendSpace = (1.1 * width) / 4; // spacing for the legend
 var allTickers;
@@ -95,7 +96,7 @@ var all_lines = [];
 var dumvar;
 //Read the json data
 //var symbolnames, one_sym_data;
-fetch("https://moby-api-dot-moby-data-services.ue.r.appspot.com/analystratings/symbolnames", {
+/*fetch("https://moby-api-dot-moby-data-services.ue.r.appspot.com/analystratings/symbolnames", {
 //fetch("http://127.0.0.1:8000/analystratings/symbolnames", {
   method: "GET",
   //body: JSON.stringify(data),
@@ -104,13 +105,25 @@ fetch("https://moby-api-dot-moby-data-services.ue.r.appspot.com/analystratings/s
     "Content-Type": "application/json",
   },
 })
+*/
+
+fetch("/static/symbol_names.json")
   .then((response) => response.json())
   .then((data) => {
-    console.log(data);
+    //console.log(data);
     allTickers = data.items;
     allTickers = allTickers.sort();
     selectedTicker = allTickers[0];
-    //Assuming ther's at least one symbol
+    //Assuming there's at least one symbol
+    fetch("/static/ratings1.json")
+    .then((response) => response.json())
+    .then((data) => {
+        // log the data
+        //console.log(data);
+        // filter the data
+        dataFilter = data.filter(obj => obj.symbol_name == selectedTicker);
+        //console.log(dataFilter);
+    /*
     fetch(
       "https://moby-api-dot-moby-data-services.ue.r.appspot.com/analystratings/ratings?symbol_name=" +
       //"http://127.0.0.1:8000/analystratings/ratings?symbol_name=" +
@@ -129,9 +142,8 @@ fetch("https://moby-api-dot-moby-data-services.ue.r.appspot.com/analystratings/s
         console.log(data);
         dataFilter = data.items;
         ////////////////////////////////////////////////////////////////
-        /*
-         */
         // add the Y gridlines
+        */
         var y0Axis = svg
           .append("g")
           .attr("class", "grid")
@@ -219,7 +231,7 @@ fetch("https://moby-api-dot-moby-data-services.ue.r.appspot.com/analystratings/s
             .attr("x", 0 - height / 2)
             .attr("dy", "1em")
             .style("text-anchor", "middle")
-            .style("font", 1.0 * chart_font.size + "px " + chart_font.font)
+            .style("font", "2vw " + chart_font.font)
             .style("fill", my_color)
             .text("Percent of Analysts");
 
@@ -231,7 +243,7 @@ fetch("https://moby-api-dot-moby-data-services.ue.r.appspot.com/analystratings/s
             .attr("x", 0 + height / 2)
             .attr("dy", "1em")
             .style("text-anchor", "middle")
-            .style("font", 1.0 * chart_font.size + "px " + chart_font.font)
+            .style("font", "2vw " + chart_font.font)
             .style("fill", csvColors[3])
             .text("Number of Analysts");
 
@@ -357,6 +369,7 @@ fetch("https://moby-api-dot-moby-data-services.ue.r.appspot.com/analystratings/s
         function update() {
           //dataFilter = data.filter(filterCriteria);
           //dataFilter = mydata.get(selectedTicker);
+/*
           fetch(
             "https://moby-api-dot-moby-data-services.ue.r.appspot.com/analystratings/ratings?symbol_name=" +
             //"http://127.0.0.1:8000/analystratings/ratings?symbol_name=" +
@@ -378,8 +391,18 @@ fetch("https://moby-api-dot-moby-data-services.ue.r.appspot.com/analystratings/s
             .catch((err) => {
               console.log(err);
             });
+            */
           // Create new data with the selection?
 
+        fetch("/static/ratings1.json")
+        .then((response) => response.json())
+        .then((data) => {
+        // log the data
+        // console.log(data);
+        // filter the data
+        dataFilter = data.filter(obj => obj.symbol_name == selectedTicker);
+        // console.log(dataFilter);
+        })
           svg.selectAll("circle").remove();
           for (i = 0; i < 4; i++) {
             var dataPlotted = dataFilter.map(function (d) {
