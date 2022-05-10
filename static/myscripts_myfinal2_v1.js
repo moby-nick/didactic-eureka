@@ -178,13 +178,14 @@ fetch("/static/symbol_names.json")
           svg
             .append("g")
             .attr("transform", "translate(0," + height + ")")
-            .call(d3.axisBottom(x).tickFormat(d3.timeFormat("'%y")).ticks(3))
+            .call(d3.axisBottom(x).tickFormat(d3.timeFormat("'%y")).ticks(3).tickSizeOuter(0))
             .selectAll("text")
             .style("font", "1.5vw " + chart_font.font)
             .style("text-anchor", "end")
             .attr("dx", "-.8em")
             .attr("dy", ".15em")
             .attr("transform", "rotate(-65)");
+
           // text label for the y0 axis
           /*
           svg
@@ -266,10 +267,21 @@ fetch("/static/symbol_names.json")
 
           const longFormat = d3.timeFormat(""); //("'%y");
           const shortFormat = d3.timeFormat("'%y");
-          const xAxis = d3.axisBottom(x).ticks(50);
+          //const xAxis = d3.axisBottom(x).tickSizeOuter(0).ticks(3);//.ticks(50);
 
-          dumvar = xAxis;
+          svg
+            .append("g")
+            .attr("transform", "translate(0," + height + ")")
+            .call(d3.axisBottom(x).tickFormat(d3.timeFormat("'%y")).ticks(3).tickSizeOuter(0))
+            .selectAll("text")
+            .style("font", "5vw " + chart_font.font)
+            .style("text-anchor", "end")
+            .attr("dx", "-.8em")
+            .attr("dy", ".15em")
+            .attr("transform", "rotate(-65)");
 
+          //dumvar = xAxis;
+/*
           svg
             .append("g")
             .attr("transform", "translate(0," + height + ")")
@@ -294,6 +306,7 @@ fetch("/static/symbol_names.json")
             .attr("dx", "-.8em")
             .attr("dy", "1.25em")
             .attr("transform", "rotate(-0)");
+            */
           // text label for the y0 axis
           svg
             .append("text")
@@ -402,7 +415,7 @@ fetch("/static/symbol_names.json")
               //.attr("fill", function(d){ return myColor(allLines[i]) })
               .attr("stroke", "none")
               //.attr("cy", function(d) { return y(d.value) })
-              .attr("r", 4)
+              .attr("r", 0)
               //.transition()
               //.duration(1000)
               .attr("cx", function (d) {
