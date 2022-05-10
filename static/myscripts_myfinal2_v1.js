@@ -1,18 +1,3 @@
-// parse the date / time
-
-/*
-fetch('https://m3jxkh.deta.dev/docs')
-        .then(res => res.json())
-        .then(data => {console.log(data)})
-
-fetch('https://m3jxkh.deta.dev/analystratings/symbolnames', { method: "GET", mode: 'cors', headers: { 'Content-Type': 'application/json',}}).then(response => response.json())
-    .then(data => {
-        console.log(data);
-    })
-    ;
-*/
-
-
 var parseTime = d3.timeParse("%Y-%m-%d");
 var mywin1 = window;
 var mywin1_H = mywin1.innerHeight;
@@ -41,26 +26,29 @@ var allLines = ["positive", "neutral", "negative", "count"];
 var allLines_Labels = ["positive", "neutral", "negative", "count (rhs)"];
 var my_color = "black";
 var my_bgcolor = "white";
+// Logic to determine if mobile or desktop layout
 if (mywin1_W < mywin1_H) {
+  // this is the vertical layout
   document.getElementById("landscape_div").outerHTML = "";
 
   my_color = "white";
-  my_bgcolor = "#000022"; //"black";
+  my_bgcolor = "#000000"; //"black";
   mobile_mode = 1;
-  //chart_font= "60px PoppinsRegular";
-  //allLines_Labels = ["+ve","~","-ve","count"]
   allLines_Labels = ["positive", "neutral", "negative", "count"];
   document.getElementById("selectButton2").style.backgroundColor = my_bgcolor;
   document.getElementById("selectButton2").style.color = my_color;
 
   // set the dimensions and margins of the graph
-  var margin = { top: 180, right: 100, bottom: 120, left: 90 };
+  // bottom: 120
+  var margin = { top: 180, right: 100, bottom: 110, left: 100 };
   var width = 0.95 * mywin1.innerWidth - margin.left - margin.right;
-  var height = 0.5 * mywin1.innerHeight - margin.top - margin.bottom;
+  var height = .80 * mywin1.innerHeight - margin.top - margin.bottom;
 } else {
+  // this is the horizontal layout
   document.getElementById("portrait_div").outerHTML = "";
 
   // set the dimensions and margins of the graph
+  // bottom: 140
   var margin = { top: 20, right: 80, bottom: 140, left: 80 };
   var width = 0.7 * mywin1.innerWidth - margin.left - margin.right;
   var height = 0.9 * mywin1.innerHeight - margin.top - margin.bottom;
@@ -79,6 +67,7 @@ var svg = d3
   .append("svg")
   .attr("width", width + margin.left + margin.right)
   .attr("height", height + margin.top + margin.bottom)
+  //.attr("height", "100vh")
   .append("g")
   .attr("transform", "translate(" + margin.left + "," + margin.top + ")");
 
@@ -227,23 +216,24 @@ fetch("/static/symbol_names.json")
               .style("font", "2vw " + chart_font.font)
               .text(allLines_Labels[i]);
           }
-        } else {
+        } else {  // the mobile version
           // Add Y axis
           y0.domain([0, 100]);
           svg
             .append("g")
-            .style("font", 1.1 * chart_font.size + "px " + chart_font.font)
+            //.style("font", 1.1 * chart_font.size + "px " + chart_font.font)
+            .style("font", "5vw " + chart_font.font)
             .call(d3.axisLeft(y0).ticks(5));
 
           // Add Yright axis
           var y1Axis = svg
             .append("g")
-            .style("font", 1.1 * chart_font.size + "px " + chart_font.font)
+            //.style("font", 1.1 * chart_font.size + "px " + chart_font.font)
+            .style("font", "5vw " + chart_font.font)
             .attr("transform", "translate(" + width + " ,0)")
             .call(d3.axisRight(y1).tickSize(0).ticks(5));
 
           // Add X axis --> it is a date format
-
           var x = d3
             .scaleLinear()
             .domain(
@@ -254,7 +244,7 @@ fetch("/static/symbol_names.json")
             .range([0, width]);
 
           const longFormat = d3.timeFormat(""); //("'%y");
-          const shortFormat = d3.timeFormat("'%y-%m");
+          const shortFormat = d3.timeFormat("'%y");
           const xAxis = d3.axisBottom(x).ticks(50);
 
           dumvar = xAxis;
@@ -277,7 +267,8 @@ fetch("/static/symbol_names.json")
               })
             )
             .selectAll("text")
-            .style("font", 1.1 * chart_font.size + "px " + chart_font.font)
+            //.style("font", 1.1 * chart_font.size + "px " + chart_font.font)
+            .style("font", "5vw " + chart_font.font)
             .style("text-anchor", "end")
             .attr("dx", "-.8em")
             .attr("dy", "1.25em")
@@ -285,9 +276,10 @@ fetch("/static/symbol_names.json")
           // text label for the y0 axis
           svg
             .append("text")
-            .style("font", 1.5 * chart_font.size + "px " + chart_font.font)
+            //.style("font", 1.5 * chart_font.size + "px " + chart_font.font)
+            .style("font", "5vw " + chart_font.font)
             .attr("transform", "rotate(-90)")
-            .attr("y", 0 - 1.15 * margin.left)
+            .attr("y", 0 - (1 * margin.left))
             .attr("x", 0 - height / 2)
             .attr("dy", "1em")
             .style("text-anchor", "middle")
@@ -297,9 +289,10 @@ fetch("/static/symbol_names.json")
           // text label for the y1 axis
           svg
             .append("text")
-            .style("font", 1.5 * chart_font.size + "px " + chart_font.font)
+            //.style("font", 1.5 * chart_font.size + "px " + chart_font.font)
+            .style("font", "5vw " + chart_font.font)
             .attr("transform", "rotate(90)")
-            .attr("y", -width - 1.0 * margin.right)
+            .attr("y", -width - 1 * margin.right)
             .attr("x", 0 + height / 2)
             .attr("dy", "1em")
             .style("text-anchor", "middle")
@@ -307,12 +300,13 @@ fetch("/static/symbol_names.json")
             .text("Number of Analysts");
 
           for (i = 0; i < 4; i++) {
-            var y_disp = 0.6;
+            var y_disp = 0.4;
             if (i > 1) y_disp = 0.2;
             // Add the Legend
             svg
               .append("text")
-              .style("font", 1.5 * chart_font.size + "px " + chart_font.font)
+              //.style("font", 1.0 * chart_font.size + "px " + chart_font.font)
+              .style("font", "5vw " + chart_font.font)
               .attr("x", 0.2 * legendSpace + (i % 2) * 1.7 * legendSpace) // space legend
               .attr("y", 0.0 * height - y_disp * margin.top) //+ 35)
               .attr("class", "legend") // style the legend
