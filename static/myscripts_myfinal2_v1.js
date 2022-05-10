@@ -18,7 +18,7 @@ txtFile.onreadystatechange = function () {
 };
 txtFile.send(null);
 
-//Decideing only on the basis of the aspect ratio
+// deciding only on the basis of the aspect ratio
 var mobile_mode = 0;
 var chart_font = { size: 30, font: "PoppinsRegular" };
 
@@ -29,6 +29,7 @@ var my_bgcolor = "white";
 // Logic to determine if mobile or desktop layout
 if (mywin1_W < mywin1_H) {
   // this is the vertical layout
+  // the mobile layout
   document.getElementById("landscape_div").outerHTML = "";
 
   my_color = "white";
@@ -40,9 +41,11 @@ if (mywin1_W < mywin1_H) {
 
   // set the dimensions and margins of the graph
   // bottom: 120
-  var margin = { top: 180, right: 100, bottom: 110, left: 100 };
+  //var margin = { top: 180, right: 75, bottom: 110, left: 75 };
+  var margin = { top: 180, right: 75, bottom: 110, left: 75 };
   var width = 0.95 * mywin1.innerWidth - margin.left - margin.right;
   var height = .80 * mywin1.innerHeight - margin.top - margin.bottom;
+
 } else {
   // this is the horizontal layout
   document.getElementById("portrait_div").outerHTML = "";
@@ -67,7 +70,6 @@ var svg = d3
   .append("svg")
   .attr("width", width + margin.left + margin.right)
   .attr("height", height + margin.top + margin.bottom)
-  //.attr("height", "100vh")
   .append("g")
   .attr("transform", "translate(" + margin.left + "," + margin.top + ")");
 
@@ -287,6 +289,7 @@ fetch("/static/symbol_names.json")
             .text("Percent of Analysts");
 
           // text label for the y1 axis
+
           svg
             .append("text")
             //.style("font", 1.5 * chart_font.size + "px " + chart_font.font)
