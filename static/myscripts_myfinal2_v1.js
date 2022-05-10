@@ -42,8 +42,8 @@ if (mywin1_W < mywin1_H) {
   // set the dimensions and margins of the graph
   // bottom: 120
   //var margin = { top: 180, right: 75, bottom: 110, left: 75 };
-  var margin = { top: 180, right: 75, bottom: 110, left: 75 };
-  var width = 0.95 * mywin1.innerWidth - margin.left - margin.right;
+  var margin = { top: 40, right: 40, bottom: 110, left: 40};
+  var width = 1.0 * mywin1.innerWidth - margin.left - margin.right;
   var height = .80 * mywin1.innerHeight - margin.top - margin.bottom;
 
 } else {
@@ -111,7 +111,7 @@ fetch("/static/symbol_names.json")
 
         y0Axis.selectAll("path").style("stroke", "white");
 
-        for (i = 0; i < 4; i++) {
+        for (i = 0; i < 3; i++) {
           // Initialize each line
           var line = svg
             .append("g")
@@ -233,7 +233,7 @@ fetch("/static/symbol_names.json")
             //.style("font", 1.1 * chart_font.size + "px " + chart_font.font)
             .style("font", "5vw " + chart_font.font)
             .attr("transform", "translate(" + width + " ,0)")
-            .call(d3.axisRight(y1).tickSize(0).ticks(5));
+            .call(d3.axisRight(y1).tickSize(0).ticks(0));
 
           // Add X axis --> it is a date format
           var x = d3
@@ -280,16 +280,19 @@ fetch("/static/symbol_names.json")
             .append("text")
             //.style("font", 1.5 * chart_font.size + "px " + chart_font.font)
             .style("font", "5vw " + chart_font.font)
-            .attr("transform", "rotate(-90)")
-            .attr("y", 0 - (1 * margin.left))
-            .attr("x", 0 - height / 2)
-            .attr("dy", "1em")
-            .style("text-anchor", "middle")
+            //.attr("transform", "rotate(-90)")
+            //.attr("y", width / 2)
+            .attr("x", (width / 2))
+            .attr("y", 0 - (margin.top / 2))
+            .attr("text-anchor", "middle")
+            //.attr("dy", "1em")
+            //.style("text-anchor", "middle")
             .style("fill", my_color)
             .text("Percent of Analysts");
 
           // text label for the y1 axis
 
+          /*
           svg
             .append("text")
             //.style("font", 1.5 * chart_font.size + "px " + chart_font.font)
@@ -301,8 +304,9 @@ fetch("/static/symbol_names.json")
             .style("text-anchor", "middle")
             .style("fill", csvColors[3])
             .text("Number of Analysts");
+            */
 
-          for (i = 0; i < 4; i++) {
+          for (i = 0; i < 3; i++) {
             var y_disp = 0.4;
             if (i > 1) y_disp = 0.2;
             // Add the Legend
@@ -310,18 +314,20 @@ fetch("/static/symbol_names.json")
               .append("text")
               //.style("font", 1.0 * chart_font.size + "px " + chart_font.font)
               .style("font", "5vw " + chart_font.font)
-              .attr("x", 0.2 * legendSpace + (i % 2) * 1.7 * legendSpace) // space legend
-              .attr("y", 0.0 * height - y_disp * margin.top) //+ 35)
+              .attr("x", .33 * legendSpace + i * legendSpace) // space legend
+              .attr("y", height + margin.bottom/2) //+ 35)
               .attr("class", "legend") // style the legend
               .style("fill", csvColors[i])
               .text(allLines_Labels[i]);
           }
         }
 
-        y1Axis.selectAll("path").style("stroke", "white");
+        //y1Axis.selectAll("path").style("stroke", "white");
 
-        var all_yaxes = [y0, y0, y0, y1];
-        var all_ymults = [100, 100, 100, 1];
+        //var all_yaxes = [y0, y0, y0, y1];
+        var all_yaxes = [y0, y0, y0];
+        //var all_ymults = [100, 100, 100, 1];
+        var all_ymults = [100, 100, 100];
 
         // A function that update the chart
         function update() {
@@ -338,7 +344,7 @@ fetch("/static/symbol_names.json")
         // console.log(dataFilter);
         })
           svg.selectAll("circle").remove();
-          for (i = 0; i < 4; i++) {
+          for (i = 0; i < 3; i++) {
             var dataPlotted = dataFilter.map(function (d) {
               return { date: parseTime(d.date), value: d[allLines[i]] };
             });
@@ -347,14 +353,14 @@ fetch("/static/symbol_names.json")
               var y1_max = d3.max(dataPlotted, function (d) {
                 return +d.value;
               });
-              y1.domain([0, y1_max]);
+              //y1.domain([0, y1_max]);
             }
             // Give these new data to update line
             //line
             all_lines[i]
               .datum(dataPlotted)
               .transition()
-              .duration(500)
+              .duration(1000)
               .attr(
                 "d",
                 d3
@@ -393,10 +399,10 @@ fetch("/static/symbol_names.json")
           }
 
           // Add Yright axis
-          y1Axis
+          /*y1Axis
             .transition()
             .duration(1000)
-            .call(d3.axisRight(y1).ticks(5).tickSize(0));
+            .call(d3.axisRight(y1).ticks(5).tickSize(0));*/
         }
                 function updateWindow(){
                     console.log("updating for window re-size .....");
