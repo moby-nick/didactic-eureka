@@ -95,26 +95,16 @@ var mydata;
 var all_lines = [];
 var dumvar;
 //Read the json data
-//var symbolnames, one_sym_data;
-/*fetch("https://moby-api-dot-moby-data-services.ue.r.appspot.com/analystratings/symbolnames", {
-//fetch("http://127.0.0.1:8000/analystratings/symbolnames", {
-  method: "GET",
-  //body: JSON.stringify(data),
-  mode: "cors",
-  headers: {
-    "Content-Type": "application/json",
-  },
-})
-*/
-
 fetch("/static/symbol_names.json")
   .then((response) => response.json())
   .then((data) => {
     //console.log(data);
     allTickers = data.items;
+
     allTickers = allTickers.sort();
     selectedTicker = allTickers[0];
     //Assuming there's at least one symbol
+    // get the json file with values
     fetch("/static/ratings1.json")
     .then((response) => response.json())
     .then((data) => {
@@ -122,28 +112,7 @@ fetch("/static/symbol_names.json")
         //console.log(data);
         // filter the data
         dataFilter = data.filter(obj => obj.symbol_name == selectedTicker);
-        //console.log(dataFilter);
-    /*
-    fetch(
-      "https://moby-api-dot-moby-data-services.ue.r.appspot.com/analystratings/ratings?symbol_name=" +
-      //"http://127.0.0.1:8000/analystratings/ratings?symbol_name=" +
-        selectedTicker,
-      {
-        method: "GET",
-        //body: JSON.stringify(data),
-        mode: "cors",
-        headers: {
-          "Content-Type": "application/json",
-        },
-      }
-    )
-      .then((response) => response.json())
-      .then((data) => {
-        console.log(data);
-        dataFilter = data.items;
-        ////////////////////////////////////////////////////////////////
-        // add the Y gridlines
-        */
+
         var y0Axis = svg
           .append("g")
           .attr("class", "grid")
@@ -256,13 +225,10 @@ fetch("/static/symbol_names.json")
               .attr("class", "legend") // style the legend
               .style("fill", csvColors[i])
               .style("font", "2vw " + chart_font.font)
-              //.style("fill", function() { // Add the colours dynamically
-              //   return myColor(allLines[i]); })
               .text(allLines_Labels[i]);
           }
         } else {
           // Add Y axis
-          //var y = d3.scaleLinear()
           y0.domain([0, 100]);
           svg
             .append("g")
@@ -285,9 +251,6 @@ fetch("/static/symbol_names.json")
                 return parseTime(d.date);
               })
             )
-            //.domain(d3.extent(mydata.get(selectedTicker), function(d) { return parseTime(d.date); }))
-            //.domain(d3.extent(data, function(d) { return parseTime(d.date); }))
-            //.domain([0,10])
             .range([0, width]);
 
           const longFormat = d3.timeFormat(""); //("'%y");
@@ -302,8 +265,6 @@ fetch("/static/symbol_names.json")
             .call(
               xAxis.tickFormat((d, i) => {
                 const ticks = xAxis.scale().ticks(50);
-
-                //console.log((new Date(d)).getMonth() + " * " + (new Date(d)) + " # " + i + " $ " + (new Date(ticks[i])) );
                 if (
                   i > 0 &&
                   new Date(d).getMonth() == 0 &&
@@ -367,31 +328,7 @@ fetch("/static/symbol_names.json")
 
         // A function that update the chart
         function update() {
-          //dataFilter = data.filter(filterCriteria);
-          //dataFilter = mydata.get(selectedTicker);
-/*
-          fetch(
-            "https://moby-api-dot-moby-data-services.ue.r.appspot.com/analystratings/ratings?symbol_name=" +
-            //"http://127.0.0.1:8000/analystratings/ratings?symbol_name=" +
-              selectedTicker,
-            {
-              method: "GET",
-              //body: JSON.stringify(data),
-              mode: "cors",
-              headers: {
-                "Content-Type": "application/json",
-              },
-            }
-          )
-            .then((response) => response.json())
-            .then((data) => {
-              console.log(data);
-              dataFilter = data.items;
-            })
-            .catch((err) => {
-              console.log(err);
-            });
-            */
+
           // Create new data with the selection?
 
         fetch("/static/ratings1.json")
@@ -415,9 +352,6 @@ fetch("/static/symbol_names.json")
               });
               y1.domain([0, y1_max]);
             }
-            /*
-             */
-            //debugger;
             // Give these new data to update line
             //line
             all_lines[i]
@@ -435,7 +369,6 @@ fetch("/static/symbol_names.json")
                     return all_yaxes[i](+d.value * all_ymults[i]);
                   })
               )
-              //.attr("stroke", function(d){ return myColor(allLines[i]) })
               .attr("stroke", csvColors[i]);
 
             // Add the circles
@@ -467,27 +400,20 @@ fetch("/static/symbol_names.json")
             .transition()
             .duration(1000)
             .call(d3.axisRight(y1).ticks(5).tickSize(0));
-
-          //svg.selectAll("text").style("font", chart_font);
         }
-
-        /*
                 function updateWindow(){
                     console.log("updating for window re-size .....");
-                    //x = mywin1.innerWidth;
-                    //y = mywin1.innerHeight;
                     width = 0.85*mywin1.innerWidth - margin.left - margin.right;
                     height = mywin1.innerHeight - margin.top - margin.bottom;
 
                     svg.attr("width", width + margin.left + margin.right);
                     svg.attr("height", height + margin.top + margin.bottom);
-                    //svg.attr("width", x).attr("height", y);
 
                     update();
                 }
                 updateWindow();
                 d3.select(mywin1).on('resize.updatesvg', updateWindow);
-            */
+
         // add the options to the button
         d3.select("#selectButton2")
           .selectAll("myOptions2")
