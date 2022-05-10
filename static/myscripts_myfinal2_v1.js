@@ -52,7 +52,7 @@ if (mywin1_W < mywin1_H) {
 
   // set the dimensions and margins of the graph
   // bottom: 140
-  var margin = { top: 20, right: 80, bottom: 140, left: 80 };
+  var margin = { top: 50, right: 40, bottom: 50, left: 80 };
   var width = 0.7 * mywin1.innerWidth - margin.left - margin.right;
   var height = 0.9 * mywin1.innerHeight - margin.top - margin.bottom;
 }
@@ -157,11 +157,13 @@ fetch("/static/symbol_names.json")
             );
 
           // Add Yright axis
+          /*
           var y1Axis = svg
             .append("g")
             .style("font", 0.5 * chart_font.size + "px " + chart_font.font)
             .attr("transform", "translate(" + width + " ,0)")
             .call(d3.axisRight(y1).tickSize(0).ticks(5));
+            */
 
           // Add X axis --> it is a date format
           var x = d3
@@ -176,14 +178,15 @@ fetch("/static/symbol_names.json")
           svg
             .append("g")
             .attr("transform", "translate(0," + height + ")")
-            .call(d3.axisBottom(x).tickFormat(d3.timeFormat("%Y-%m")).ticks(5))
+            .call(d3.axisBottom(x).tickFormat(d3.timeFormat("'%y")).ticks(3))
             .selectAll("text")
-            .style("font", 0.5 * chart_font.size + "px " + chart_font.font)
+            .style("font", "1.5vw " + chart_font.font)
             .style("text-anchor", "end")
             .attr("dx", "-.8em")
             .attr("dy", ".15em")
             .attr("transform", "rotate(-65)");
           // text label for the y0 axis
+          /*
           svg
             .append("text")
             .attr("transform", "rotate(-90)")
@@ -193,9 +196,24 @@ fetch("/static/symbol_names.json")
             .style("text-anchor", "middle")
             .style("font", "2vw " + chart_font.font)
             .style("fill", my_color)
+            .text("Percent of Analysts");*/
+
+          svg
+            .append("text")
+            //.style("font", 1.5 * chart_font.size + "px " + chart_font.font)
+            .style("font", "5vh " + chart_font.font)
+            //.attr("transform", "rotate(-90)")
+            //.attr("y", width / 2)
+            .attr("x", (width / 2))
+            .attr("y", 0 - (margin.top / 2))
+            .attr("text-anchor", "middle")
+            //.attr("dy", "1em")
+            //.style("text-anchor", "middle")
+            .style("fill", my_color)
             .text("Percent of Analysts");
 
           // text label for the y1 axis
+          /*
           svg
             .append("text")
             .attr("transform", "rotate(90)")
@@ -205,13 +223,14 @@ fetch("/static/symbol_names.json")
             .style("text-anchor", "middle")
             .style("font", "2vw " + chart_font.font)
             .style("fill", csvColors[3])
-            .text("Number of Analysts");
+            .text("Number of Analysts");*/
 
-          for (i = 0; i < 4; i++) {
+          for (i = 0; i < 3; i++) {
             // Add the Legend
             svg
               .append("text")
-              .attr("x", 0 * legendSpace + i * legendSpace) // space legend
+              //.attr("x", .55 * legendSpace + i * legendSpace) // space legend
+              .attr("x", (width / 5) * i + 1 + margin.left)
               .attr("y", height + 0.9 * margin.bottom) //+ 35)
               .attr("class", "legend") // style the legend
               .style("fill", csvColors[i])
@@ -307,14 +326,12 @@ fetch("/static/symbol_names.json")
             */
 
           for (i = 0; i < 3; i++) {
-            var y_disp = 0.4;
-            if (i > 1) y_disp = 0.2;
             // Add the Legend
             svg
               .append("text")
               //.style("font", 1.0 * chart_font.size + "px " + chart_font.font)
-              .style("font", "5vw " + chart_font.font)
-              .attr("x", .33 * legendSpace + i * legendSpace) // space legend
+              .style("font", "4vw " + chart_font.font)
+              .attr("x", .2 * legendSpace + i * legendSpace) // space legend
               .attr("y", height + margin.bottom/2) //+ 35)
               .attr("class", "legend") // style the legend
               .style("fill", csvColors[i])
